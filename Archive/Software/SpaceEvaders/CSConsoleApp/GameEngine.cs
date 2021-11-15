@@ -8,8 +8,8 @@ namespace CSConsoleApp
 {
     public class GameEngine
     {
-        int BoardHeight = 50;
-        int BoardWidth = 200;
+        public int BoardHeight = 50;
+        public int BoardWidth = 200;
 
         string[,] Board;
 
@@ -21,14 +21,15 @@ namespace CSConsoleApp
             Console.OutputEncoding = Encoding.UTF8;
             Console.SetWindowSize(BoardWidth, BoardHeight + 1);
             Console.SetBufferSize(BoardWidth, BoardHeight + 1);
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
 
             //  Set clear space for final layer
             //VisualElements.Add(new VisualElement(BoardWidth, BoardHeight, 0, 0, Byte.MaxValue, 160));
         }
 
-        public void LoadVisualElement(string[] visualElement, int left, int top, int layer)
+        public void LoadVisualElement(string name, string[] visualElement, int left, int top, int layer)
         {
-            VisualElements.Add(new VisualElement(visualElement, left, top, layer));
+            VisualElements.Add(new VisualElement(name, visualElement, left, top, layer));
         }
 
         public void Run()
@@ -47,6 +48,25 @@ namespace CSConsoleApp
 
                 //  First check for quit command
                 if (input == "q" || input == "quit") break;
+
+                //  breakdown the input into an array of commands and arguments
+                var commands = input.Split(' ');
+
+                //  Check for move command
+                if (commands[0] == "move")
+                {
+                    //  Move the ship based on X and Y coordinates
+                    if (commands.Length < 3)
+                    {
+                        Console.WriteLine("Please ensure your move command includes arguments for X and Y coordindates");
+                    }
+                    else
+                    {
+                        var ship = VisualElements.FirstOrDefault(e => e.Name == "ship");
+                        ship.Left += int.Parse(commands[1]);
+                        ship.Top += int.Parse(commands[2]);
+                    }
+                }
             }
         }
 
@@ -54,11 +74,12 @@ namespace CSConsoleApp
         {
             //  Create the board
             Board = new string[BoardWidth, BoardHeight];
+            
             for (int j = 0; j < BoardHeight; j++)
             {
                 for (int i = 0; i < BoardWidth; i++)
                 {
-                    Board[i, j] = " ";
+                    Board[i, j] =  " ";
                 }
             }
 

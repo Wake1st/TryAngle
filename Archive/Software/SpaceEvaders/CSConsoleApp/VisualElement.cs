@@ -10,6 +10,8 @@ namespace CSConsoleApp
     {
         public List<string> Shape;
 
+        public string Name;
+
         public int Height;
         public int Width;
         public int Left;
@@ -20,9 +22,11 @@ namespace CSConsoleApp
         /// Creates whatever is given
         /// </summary>
         /// <param name="shape"></param>
-        public VisualElement(string[] shape, int left, int top, int layer)
+        public VisualElement(string name, string[] shape, int left, int top, int layer)
         {
             Shape = shape.ToList();
+
+            Name = name;
 
             Height = shape.Length;
             Width = shape[0].Length;
